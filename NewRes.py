@@ -7,17 +7,14 @@ import torch
 from transformers import CLIPModel, CLIPProcessor
 import io
 
-# Set page configuration for dark theme and layout
 st.set_page_config(page_title="Photo Captioner", layout="wide", initial_sidebar_state="expanded")
 
-# Load CLIP model and processor
 device = "cuda" if torch.cuda.is_available() else "cpu"
 model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32").to(device)
 processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
 
 os.environ["AWS_PROFILE"] = "AlphaController"
 
-# Rekognition and Bedrock clients with additional config
 from botocore.config import Config
 
 config = Config(
@@ -94,7 +91,7 @@ if uploaded_file is not None:
     image = Image.open(uploaded_file)
     st.image(image, caption='Uploaded Image.', use_column_width=True, width=500)
 
-    platform = st.selectbox("Platform to post", ["Instagram", "LinkedIn"])
+    platform = st.selectbox("Platform to post", ["LinkedIn", "Instagram"])
     
     if st.button("Generate Caption"):
         st.write("Generating Caption...")
